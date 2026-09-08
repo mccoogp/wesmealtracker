@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 const TODAY = (() => {
   const d = new Date();
