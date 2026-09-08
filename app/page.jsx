@@ -22,24 +22,9 @@ function calcTrack(total, remaining, daysElapsed, daysLeft, totalDays) {
   const usedPerDay = daysElapsed > 0 && used !== null ? used / daysElapsed : null;
   const canSpendPerDay = daysLeft > 0 && rem !== null ? rem / daysLeft : null;
   const onPacePerDay = totalDays > 0 ? total / totalDays : null;
-  const pctUsed = rem !== null ? Math.min(100, Math.max(0, ((total - rem) / total) * 100)) : null;
-  const pctDays = totalDays > 0 ? Math.min(100, Math.max(0, (daysElapsed / totalDays) * 100)) : 0;
-  const projectedRemaining = usedPerDay !== null && rem !== null ? rem - usedPerDay * daysLeft : null;
-  let pace = null;
-  if (canSpendPerDay !== null && onPacePerDay !== null) {
-    const ratio = canSpendPerDay / onPacePerDay;
-    if (ratio > 1.06) pace = "slow";
-    else if (ratio < 0.94) pace = "fast";
-    else pace = "track";
-  }
-  return { rem, used, usedPerDay, canSpendPerDay, onPacePerDay, pctUsed, pctDays, pace, projectedRemaining };
-}
 
-const PACE_CONFIG = {
-  track: { color: "var(--text-success)", bg: "var(--bg-success)", border: "var(--border-success)", bar: "var(--fill-success)", label: "On track" },
-  slow: { color: "var(--text-warning)", bg: "var(--bg-warning)", border: "var(--border-warning)", bar: "var(--fill-warning)", label: "Spending slow" },
-  fast: { color: "var(--text-danger)", bg: "var(--bg-danger)", border: "var(--border-danger)", bar: "var(--fill-danger)", label: "Spending fast" },
-};
+  return { rem, used, usedPerDay, canSpendPerDay, onPacePerDay };
+}
 
 function StatCard({ label, value, sub, color, big }) {
   return (
@@ -64,9 +49,8 @@ function StatCard({ label, value, sub, color, big }) {
   );
 }
 
-function Track({ name, icon, unit, total, setTotal, remaining, setRemaining, daysElapsed, daysLeft, totalDays }) {
+function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElapsed, daysLeft, totalDays }) {
   const t = calcTrack(total, remaining, daysElapsed, daysLeft, totalDays);
-  const pace = t.pace ? PACE_CONFIG[t.pace] : null;
   const hasData = remaining !== "";
 
   return (
@@ -78,24 +62,7 @@ function Track({ name, icon, unit, total, setTotal, remaining, setRemaining, day
       marginBottom: 12,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-        <span style={{ fontSize: 18, lineHeight: 1 }} aria-hidden="true">{icon}</span>
         <span style={{ fontSize: 16, fontWeight: 500, color: "var(--text-primary)" }}>{name}</span>
-        {pace && (
-          <span style={{
-            marginLeft: "auto",
-            background: pace.bg,
-            color: pace.color,
-            fontSize: 11,
-            fontWeight: 500,
-            padding: "3px 10px",
-            borderRadius: 20,
-            border: `0.5px solid ${pace.border}`,
-            whiteSpace: "nowrap",
-          }}>
-            {pace.label === "On track" ? "✓ " : pace.label === "Spending fast" ? "↑ " : "↓ "}
-            {pace.label}
-          </span>
-        )}
       </div>
 
       <div style={{ display: "flex", gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
@@ -113,7 +80,7 @@ function Track({ name, icon, unit, total, setTotal, remaining, setRemaining, day
         </div>
         <div style={{ flex: "1 1 140px" }}>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
-            Current balance{remaining === "" ? " ←" : ""}
+            Current balance
           </label>
           <input
             type="number"
@@ -130,74 +97,16 @@ function Track({ name, icon, unit, total, setTotal, remaining, setRemaining, day
         </div>
       </div>
 
-      {hasData ? (
-        <>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 18 }}>
-            <StatCard label="Used so far" value={t.used !== null ? Math.round(t.used) : null} />
-            <StatCard label="Used per day" value={t.usedPerDay !== null ? t.usedPerDay.toFixed(1) : null} sub="historical avg" />
-            <StatCard
-              label="Can spend / day"
-              value={t.canSpendPerDay !== null ? t.canSpendPerDay.toFixed(1) : null}
-              sub={`${daysLeft} days left`}
-              color={pace?.color}
-            />
-            <StatCard label="Target / day" value={t.onPacePerDay !== null ? t.onPacePerDay.toFixed(1) : null} sub="ideal pace" />
-          </div>
-
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-              <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Usage vs. time elapsed</span>
-              <span style={{ fontSize: 11, color: "var(--text-secondary)" }}>
-                {t.pctUsed !== null ? Math.round(t.pctUsed) : 0}% used · {Math.round(t.pctDays)}% of semester
-              </span>
-            </div>
-            <div style={{ position: "relative", height: 8, background: "var(--surface-1)", borderRadius: 4, overflow: "hidden", border: "0.5px solid var(--border)" }}>
-              <div style={{
-                position: "absolute", left: 0, top: 0, height: "100%",
-                width: `${t.pctUsed ?? 0}%`,
-                background: pace?.bar || "var(--fill-accent)",
-                transition: "width 0.3s ease",
-                borderRadius: 4,
-              }} />
-            </div>
-            <div style={{ position: "relative", height: 20, marginTop: 1 }}>
-              <div style={{
-                position: "absolute",
-                left: `clamp(12px, ${t.pctDays}%, calc(100% - 36px))`,
-                transform: "translateX(-50%)",
-                fontSize: 10,
-                color: "var(--text-secondary)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 1,
-              }}>
-                <span style={{ width: 1, height: 6, background: "var(--text-secondary)", display: "block" }} />
-                <span>today</span>
-              </div>
-            </div>
-            {t.projectedRemaining !== null && (
-              <div style={{
-                marginTop: 4,
-                fontSize: 11,
-                color: t.projectedRemaining >= 0 ? "var(--text-warning)" : "var(--text-danger)",
-              }}>
-                {t.projectedRemaining >= 0
-                  ? `At this pace you'll finish with ~${Math.round(t.projectedRemaining)} ${unit.toLowerCase()} left over.`
-                  : `At this pace you'll run out ~${Math.round(Math.abs(t.projectedRemaining))} ${unit.toLowerCase()} short.`
-                }
-              </div>
-            )}
-          </div>
-        </>
-      ) : (
-        <div style={{
-          textAlign: "center",
-          padding: "20px 0 4px",
-          fontSize: 13,
-          color: "var(--text-muted)",
-        }}>
-          Enter your current balance above to see your spending stats.
+      {hasData && (
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <StatCard label="Used so far" value={t.used !== null ? Math.round(t.used) : null} />
+          <StatCard label="Used per day" value={t.usedPerDay !== null ? t.usedPerDay.toFixed(1) : null} sub="historical avg" />
+          <StatCard
+            label="Can spend / day"
+            value={t.canSpendPerDay !== null ? t.canSpendPerDay.toFixed(1) : null}
+            sub={`${daysLeft} days left`}
+          />
+          <StatCard label="Target / day" value={t.onPacePerDay !== null ? t.onPacePerDay.toFixed(1) : null} sub="ideal pace" />
         </div>
       )}
     </div>
@@ -218,11 +127,6 @@ export default function App() {
     const daysLeft = Math.max(0, daysBetween(TODAY, endDate));
     return { totalDays, daysElapsed, daysLeft };
   }, [startDate, endDate]);
-
-  const fmtDate = (s) => {
-    const d = new Date(s + "T12:00:00");
-    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
 
   return (
     <div style={{
@@ -254,18 +158,6 @@ export default function App() {
               </label>
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
             </div>
-            <div style={{
-              marginLeft: "auto",
-              fontSize: 13,
-              color: "var(--text-secondary)",
-              textAlign: "right",
-              lineHeight: 1.7,
-            }}>
-              <div>{fmtDate(startDate)} – {fmtDate(endDate)}</div>
-              <div style={{ color: "var(--text-muted)", fontSize: 12 }}>
-                {daysElapsed}d elapsed · {daysLeft}d left · {totalDays}d total
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -273,7 +165,6 @@ export default function App() {
       <div style={{ maxWidth: 660, margin: "20px auto", padding: "0 16px" }}>
         <Track
           name="Meal points"
-          icon="💳"
           unit="Points"
           total={totalPoints}
           setTotal={setTotalPoints}
@@ -285,7 +176,6 @@ export default function App() {
         />
         <Track
           name="Meal swipes"
-          icon="🍽️"
           unit="Swipes"
           total={totalSwipes}
           setTotal={setTotalSwipes}
@@ -295,9 +185,6 @@ export default function App() {
           daysLeft={daysLeft}
           totalDays={totalDays}
         />
-        <p style={{ textAlign: "center", fontSize: 12, color: "var(--text-muted)", margin: "16px 0 0" }}>
-          Update your balance each week to keep your pace accurate.
-        </p>
       </div>
     </div>
   );
