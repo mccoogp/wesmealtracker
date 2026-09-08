@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Analytics } from "@vercel/analytics/next";
+
 
 const TODAY = (() => {
   const d = new Date();
@@ -92,7 +92,6 @@ function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElaps
             style={{
               width: "100%",
               boxSizing: "border-box",
-              ...(remaining === "" ? { borderColor: "var(--border-warning)" } : {}),
             }}
           />
         </div>
