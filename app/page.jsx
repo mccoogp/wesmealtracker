@@ -115,7 +115,7 @@ function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElaps
 
 export default function App() {
   const [startDate, setStartDate] = useState(`${YEAR}-09-04`);
-  const [endDate, setEndDate] = useState(`${YEAR}-12-12`);
+  const [endDate, setEndDate] = useState(`${YEAR}-12-20`);
   const [totalPoints, setTotalPoints] = useState(540);
   const [remainingPoints, setRemainingPoints] = useState("");
   const [totalSwipes, setTotalSwipes] = useState(290);
