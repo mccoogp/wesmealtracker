@@ -2,22 +2,35 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata = {
-  metadataBase: new URL(
-    process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3000"
-  ),
-  title: "Wesleyan Meal Plan Tracker",
-  description: "Track your meal swipes and points pace throughout the semester.",
+  metadataBase: new URL("https://wesmealtracker.vercel.app"),
+  title: "Wesleyan Points Calculator & Meal Plan Tracker",
+  description:
+    "Calculate your daily Wesleyan meal points and swipe budget pace. Track your WesCard balance for Premier, Intermediate, and All-Points plans.",
+  keywords: [
+    "Wesleyan points calculator",
+    "Wesleyan meal plan tracker",
+    "Wesleyan meal points",
+    "Wesleyan swipes calculator",
+    "WesCard points pace",
+  ],
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
     apple: "/icon.png",
   },
   openGraph: {
-    title: "Wesleyan Meal Plan Tracker",
-    description: "Track your meal swipes and points pace throughout the semester.",
+    title: "Wesleyan Points Calculator & Meal Plan Tracker",
+    description:
+      "Calculate your daily Wesleyan meal points and swipe budget pace. Track your WesCard balance for Premier, Intermediate, and All-Points plans.",
+    url: "https://wesmealtracker.vercel.app",
+    siteName: "Wesleyan Meal Plan Tracker",
     images: [
       {
         url: "/image.png",
@@ -29,8 +42,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Wesleyan Meal Plan Tracker",
-    description: "Track your meal swipes and points pace throughout the semester.",
+    title: "Wesleyan Points Calculator & Meal Plan Tracker",
+    description:
+      "Calculate your daily Wesleyan meal points and swipe budget pace.",
     images: ["/image.png"],
   },
 };
