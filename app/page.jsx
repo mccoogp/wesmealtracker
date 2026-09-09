@@ -119,6 +119,9 @@ export default function App() {
   const [fallStartDate, setFallStartDate] = useState(`${YEAR}-10-24`);
   const [fallEndDate, setFallEndDate] = useState(`${YEAR}-10-27`);
   const [fallBreak, setFallBreak] = useState(false);
+  const [thankStartDate, setThankStartDate] = useState(`${YEAR}-11-25`);
+  const [thankEndDate, setThankEndDate] = useState(`${YEAR}-11-29`);
+  const [thankBreak, setThankBreak] = useState(false);
   const [totalPoints, setTotalPoints] = useState(540);
   const [remainingPoints, setRemainingPoints] = useState("");
   const [totalSwipes, setTotalSwipes] = useState(290);
@@ -127,12 +130,15 @@ export default function App() {
   const { totalDays, daysElapsed, daysLeft } = useMemo(() => {
     const totalDays = Math.max(0, daysBetween(startDate, endDate));
     const daysElapsed = Math.max(0, Math.min(totalDays, daysBetween(startDate, TODAY)));
-    const daysLeft = Math.max(0, daysBetween(TODAY, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0));
+    const daysLeft = Math.max(0, daysBetween(TODAY, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0) - (thankBreak ? daysBetween(thankStartDate, thankEndDate) : 0));
     return { totalDays, daysElapsed, daysLeft };
-  }, [startDate, endDate, fallStartDate, fallEndDate, fallBreak]);
+  }, [startDate, endDate, fallStartDate, fallEndDate, fallBreak, thankStartDate, thankEndDate, thankBreak]);
 
   const handleCheckboxChange = () => {
     setFallBreak(!fallBreak);
+  };
+  const handleCheckboxChange2 = () => {
+    setThankBreak(!thankBreak);
   };
 
   return (
@@ -165,6 +171,23 @@ export default function App() {
                 Semester end
               </label>
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </div>
+          </div>
+          <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Off Campus Thanksgiving Break
+              </label>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16 }}>
+            <input
+          type="checkbox"
+          checked={thankBreak}
+          onChange={handleCheckboxChange2}
+        />
+            <div>
+              <input type="date" value={thankStartDate} onChange={e => setThankStartDate(e.target.value)} />
+            </div>
+            -
+            <div>
+              <input type="date" value={thankEndDate} onChange={e => setThankEndDate(e.target.value)} />
             </div>
           </div>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
