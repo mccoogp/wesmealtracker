@@ -174,26 +174,9 @@ export default function App() {
             </div>
           </div>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Off Campus Thanksgiving Break
-              </label>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16 }}>
-            <input
-          type="checkbox"
-          checked={thankBreak}
-          onChange={handleCheckboxChange2}
-        />
-            <div>
-              <input type="date" value={thankStartDate} onChange={e => setThankStartDate(e.target.value)} />
-            </div>
-            -
-            <div>
-              <input type="date" value={thankEndDate} onChange={e => setThankEndDate(e.target.value)} />
-            </div>
-          </div>
-          <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
                 Off Campus Fall Break
               </label>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16}}>
             <input
           type="checkbox"
           checked={fallBreak}
@@ -205,6 +188,23 @@ export default function App() {
             -
             <div>
               <input type="date" value={fallEndDate} onChange={e => setFallEndDate(e.target.value)} />
+            </div>
+          </div>
+          <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Off Campus Thanksgiving Break
+              </label>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 5 }}>
+            <input
+          type="checkbox"
+          checked={thankBreak}
+          onChange={handleCheckboxChange2}
+        />
+            <div>
+              <input type="date" value={thankStartDate} onChange={e => setThankStartDate(e.target.value)} />
+            </div>
+            -
+            <div>
+              <input type="date" value={thankEndDate} onChange={e => setThankEndDate(e.target.value)} />
             </div>
           </div>
         </div>
