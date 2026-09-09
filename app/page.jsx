@@ -234,6 +234,12 @@ export default function App() {
           totalDays={totalDays}
         />
       </div>
+      <div style={{ maxWidth: 660, margin: "20px auto", padding: "0 16px" }}>
+      <a href="https://wesleyan-sp.transactcampus.com/eAccounts/AccountSummary.aspx" target="_blank" rel="noopener noreferrer">
+      Check Your Balance
+      </a>
+      </div>
+      
     </div>
   );
 }
