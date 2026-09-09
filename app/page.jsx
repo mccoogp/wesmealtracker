@@ -21,6 +21,12 @@ function BottomMarquee() {
         <span>{marqueeText}</span>
         <span>{marqueeText}</span>
         <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
       </div>
     </div>
   );
