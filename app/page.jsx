@@ -1,8 +1,30 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import pointsIcon from "./points.png";
+import mealsIcon from "./meals.svg";
+import thankIcon from "./thank.png";
+import fallIcon from "./fall.png";
+import './BottomMarquee.css';
 
 
+function BottomMarquee() {
+  const marqueeText = "DOLLY PARTON ADP FRIDAY NIGHT!!!    ";
+
+  return (
+    <div className="marquee-fixed-bottom">
+      <div className="marquee-content">
+        {/* We repeat the text to ensure a seamless infinite loop loop */}
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+        <span>{marqueeText}</span>
+      </div>
+    </div>
+  );
+}
 
 const TODAY = (() => {
   const d = new Date();
@@ -23,7 +45,7 @@ function calcTrack(total, remaining, daysElapsed, daysLeft, totalDays) {
   const used = rem !== null ? Math.max(0, total - rem) : null;
   const usedPerDay = daysElapsed > 0 && used !== null ? used / daysElapsed : null;
   const canSpendPerDay = daysLeft > 0 && rem !== null ? rem / daysLeft : null;
-  const onPacePerDay = totalDays > 0 ? total / (totalDays ) : null;
+  const onPacePerDay = totalDays > 0 ? total / (totalDays) : null;
 
   return { rem, used, usedPerDay, canSpendPerDay, onPacePerDay };
 }
@@ -51,9 +73,10 @@ function StatCard({ label, value, sub, color, big }) {
   );
 }
 
-function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElapsed, daysLeft, totalDays }) {
+function Track({ name, unit, total, icon, setTotal, remaining, setRemaining, daysElapsed, daysLeft, totalDays }) {
   const t = calcTrack(total, remaining, daysElapsed, daysLeft, totalDays);
   const hasData = remaining !== "";
+  const imgSrc = typeof icon === "string" ? icon : icon?.src || icon;
 
   return (
     <div style={{
@@ -64,6 +87,11 @@ function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElaps
       marginBottom: 12,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+        <img
+          src={imgSrc}
+          alt={name}
+          style={{ width: 24, height: 24, objectFit: "contain" }}
+        />
         <span style={{ fontSize: 16, fontWeight: 500, color: "var(--text-primary)" }}>{name}</span>
       </div>
 
@@ -159,7 +187,8 @@ export default function App() {
           <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 16, color: "var(--text-primary)" }}>
             Meal plan tracker
           </div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" , marginBottom: 16}}>
+
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16 }}>
             <div>
               <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
                 Semester start
@@ -175,14 +204,18 @@ export default function App() {
             </div>
           </div>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Off Campus Fall Break
-              </label>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16}}>
+             <img
+              src={typeof fallIcon === "string" ? fallIcon : fallIcon?.src || fallIcon}
+              style={{ width: 20, height: 20, objectFit: "contain" }}
+              />
+            {' '} {' '}Off Campus Fall Break
+          </label>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 16 }}>
             <input
-          type="checkbox"
-          checked={fallBreak}
-          onChange={handleCheckboxChange}
-        />
+              type="checkbox"
+              checked={fallBreak}
+              onChange={handleCheckboxChange}
+            />
             <div>
               <input type="date" value={fallStartDate} onChange={e => setFallStartDate(e.target.value)} />
             </div>
@@ -192,14 +225,20 @@ export default function App() {
             </div>
           </div>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Off Campus Thanksgiving Break
-              </label>
+
+              <img
+              src={typeof thankIcon === "string" ? thankIcon : thankIcon?.src || thankIcon}
+              style={{ width: 24, height: 24, objectFit: "contain" }}
+              />
+            {' '} {' '} Off Campus Thanksgiving Break
+          </label>
+
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 5 }}>
             <input
-          type="checkbox"
-          checked={thankBreak}
-          onChange={handleCheckboxChange2}
-        />
+              type="checkbox"
+              checked={thankBreak}
+              onChange={handleCheckboxChange2}
+            />
             <div>
               <input type="date" value={thankStartDate} onChange={e => setThankStartDate(e.target.value)} />
             </div>
@@ -216,6 +255,7 @@ export default function App() {
           name="Meal points"
           unit="Points"
           total={totalPoints}
+          icon={pointsIcon}
           setTotal={setTotalPoints}
           remaining={remainingPoints}
           setRemaining={setRemainingPoints}
@@ -227,6 +267,7 @@ export default function App() {
           name="Meal swipes"
           unit="Swipes"
           total={totalSwipes}
+          icon={mealsIcon}
           setTotal={setTotalSwipes}
           remaining={remainingSwipes}
           setRemaining={setRemainingSwipes}
@@ -236,11 +277,11 @@ export default function App() {
         />
       </div>
       <div style={{ maxWidth: 660, margin: "20px auto", padding: "0 16px" }}>
-      <a href="https://wesleyan-sp.transactcampus.com/eAccounts/AccountSummary.aspx" target="_blank" rel="noopener noreferrer">
-      Check Your Balance
-      </a>
+        <a href="https://wesleyan-sp.transactcampus.com/eAccounts/AccountSummary.aspx" target="_blank" rel="noopener noreferrer">
+          Check Your Balance
+        </a>
       </div>
-      
+      <BottomMarquee></BottomMarquee>
     </div>
   );
 }
