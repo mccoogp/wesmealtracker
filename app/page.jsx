@@ -22,7 +22,7 @@ function calcTrack(total, remaining, daysElapsed, daysLeft, totalDays) {
   const used = rem !== null ? Math.max(0, total - rem) : null;
   const usedPerDay = daysElapsed > 0 && used !== null ? used / daysElapsed : null;
   const canSpendPerDay = daysLeft > 0 && rem !== null ? rem / daysLeft : null;
-  const onPacePerDay = totalDays > 0 ? total / totalDays : null;
+  const onPacePerDay = totalDays > 0 ? total / (totalDays ) : null;
 
   return { rem, used, usedPerDay, canSpendPerDay, onPacePerDay };
 }
@@ -128,7 +128,7 @@ export default function App() {
   const [remainingSwipes, setRemainingSwipes] = useState("");
 
   const { totalDays, daysElapsed, daysLeft } = useMemo(() => {
-    const totalDays = Math.max(0, daysBetween(startDate, endDate));
+    const totalDays = Math.max(0, daysBetween(startDate, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0) - (thankBreak ? daysBetween(thankStartDate, thankEndDate) : 0));
     const daysElapsed = Math.max(0, Math.min(totalDays, daysBetween(startDate, TODAY)));
     const daysLeft = Math.max(0, daysBetween(TODAY, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0) - (thankBreak ? daysBetween(thankStartDate, thankEndDate) : 0));
     return { totalDays, daysElapsed, daysLeft };
