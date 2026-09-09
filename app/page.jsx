@@ -116,6 +116,9 @@ function Track({ name, unit, total, setTotal, remaining, setRemaining, daysElaps
 export default function App() {
   const [startDate, setStartDate] = useState(`${YEAR}-09-04`);
   const [endDate, setEndDate] = useState(`${YEAR}-12-20`);
+  const [fallStartDate, setFallStartDate] = useState(`${YEAR}-10-24`);
+  const [fallEndDate, setFallEndDate] = useState(`${YEAR}-10-27`);
+  const [fallBreak, setFallBreak] = useState(false);
   const [totalPoints, setTotalPoints] = useState(540);
   const [remainingPoints, setRemainingPoints] = useState("");
   const [totalSwipes, setTotalSwipes] = useState(290);
@@ -124,9 +127,13 @@ export default function App() {
   const { totalDays, daysElapsed, daysLeft } = useMemo(() => {
     const totalDays = Math.max(0, daysBetween(startDate, endDate));
     const daysElapsed = Math.max(0, Math.min(totalDays, daysBetween(startDate, TODAY)));
-    const daysLeft = Math.max(0, daysBetween(TODAY, endDate));
+    const daysLeft = Math.max(0, daysBetween(TODAY, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0));
     return { totalDays, daysElapsed, daysLeft };
-  }, [startDate, endDate]);
+  }, [startDate, endDate, fallStartDate, fallEndDate, fallBreak]);
+
+  const handleCheckboxChange = () => {
+    setFallBreak(!fallBreak);
+  };
 
   return (
     <div style={{
@@ -145,18 +152,36 @@ export default function App() {
           <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 16, color: "var(--text-primary)" }}>
             Meal plan tracker
           </div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" , marginBottom: 16}}>
             <div>
               <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
                 Semester start
               </label>
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
             </div>
+            -
             <div>
               <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
                 Semester end
               </label>
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </div>
+          </div>
+          <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Off Campus Fall Break
+              </label>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
+            <input
+          type="checkbox"
+          checked={fallBreak}
+          onChange={handleCheckboxChange}
+        />
+            <div>
+              <input type="date" value={fallStartDate} onChange={e => setFallStartDate(e.target.value)} />
+            </div>
+            -
+            <div>
+              <input type="date" value={fallEndDate} onChange={e => setFallEndDate(e.target.value)} />
             </div>
           </div>
         </div>
