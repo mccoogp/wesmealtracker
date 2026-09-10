@@ -149,7 +149,7 @@ function Track({ name, unit, total, icon, setTotal, remaining, setRemaining, day
   );
 }
 
-export function DesktopView() {
+export function SmallView() {
   const [startDate, setStartDate] = useState(`${YEAR}-09-04`);
   const [endDate, setEndDate] = useState(`${YEAR}-12-20`);
   const [fallStartDate, setFallStartDate] = useState(`${YEAR}-10-24`);
@@ -190,22 +190,7 @@ export function DesktopView() {
         borderBottom: "0.5px solid var(--border)",
         padding: "20px 24px",
       }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
-          top: '35px', 
-          right: '-120px', }}>
-            <img
-              src={typeof wesIcon === "string" ? wesIcon : wesIcon?.src || wesIcon}
-              style={{ width: 200, height: 200, objectFit: "contain" }}
-              />
-        </div> 
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
-          top: '35px', 
-          right: '-1170px', }}>
-            <img
-              src={typeof plateIcon === "string" ? plateIcon : plateIcon?.src || plateIcon}
-              style={{ width: 200, height: 200, objectFit: "contain" }}
-              />
-        </div> 
+
         <div style={{ maxWidth: 660, margin: "0 auto" }}>
           <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 16, color: "var(--text-primary)" }}>
             Meal plan tracker
