@@ -35,9 +35,9 @@
 /* The infinite scrolling logic */
 @keyframes scroll-left-mobile {
   0% {
-    transform: translateX(0%);
+    transform: translateX(20%);
   }
   100% {
-    transform: translateX(-500%); /* Moves exactly halfway (one full text copy length) before snapping back */
+    transform: translateX(-1000%); /* Moves exactly halfway (one full text copy length) before snapping back */
   }
 }
