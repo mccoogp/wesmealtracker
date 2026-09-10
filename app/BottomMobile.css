@@ -38,6 +38,6 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%); /* Moves exactly halfway (one full text copy length) before snapping back */
+    transform: translateX(-5000%); /* Moves exactly halfway (one full text copy length) before snapping back */
   }
 }
