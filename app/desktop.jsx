@@ -192,7 +192,8 @@ export function DesktopView() {
       }}>
         <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
           top: '35px', 
-          right: '-120px', }}>
+          right: '-120px', 
+          pointerEvents: 'none',}}>
             <img
               src={typeof wesIcon === "string" ? wesIcon : wesIcon?.src || wesIcon}
               style={{ width: 200, height: 200, objectFit: "contain" }}
@@ -200,7 +201,8 @@ export function DesktopView() {
         </div> 
         <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
           top: '35px', 
-          right: '-1170px', }}>
+          right: '-1170px',
+          pointerEvents: 'none',}}>
             <img
               src={typeof plateIcon === "string" ? plateIcon : plateIcon?.src || plateIcon}
               style={{ width: 200, height: 200, objectFit: "contain" }}
