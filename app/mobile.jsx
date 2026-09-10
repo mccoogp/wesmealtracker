@@ -285,6 +285,10 @@ export function MobileView() {
         <a href="https://wesleyan-sp.transactcampus.com/eAccounts/AccountSummary.aspx" target="_blank" rel="noopener noreferrer">
           Check Your Balance
         </a>
+        <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)" }}>
+            (Click on your plan at the bottom for meals)
+          </label>
+        
       </div>
       <BottomMarquee></BottomMarquee>
     </div>
