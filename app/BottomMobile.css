@@ -17,7 +17,7 @@
 .marquee-content-mobile {
   display: flex;
   white-space: nowrap;
-  animation: scroll-left-mobile 45s linear infinite;
+  animation: scroll-left-mobile 15s linear infinite;
 }
 
 /* Individual text blocks */
