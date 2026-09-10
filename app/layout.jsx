@@ -18,7 +18,8 @@ export const metadata = {
     "Wesleyan meal plan tracker",
     "Wesleyan meal points",
     "Wesleyan swipes calculator",
-    "WesCard points pace",
+    "Wesleyan meal plan",
+    "Wesleyan tracker",
   ],
   icons: {
     icon: "/icon.png",
