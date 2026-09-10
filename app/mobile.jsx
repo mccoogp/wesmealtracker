@@ -8,7 +8,7 @@ import './BottomMobile.css';
 
 
 function BottomMarquee() {
-  const marqueeText = "DOLLY PARTON ADP FRIDAY NIGHT!!!    ";
+  const marqueeText = "DOLLY PARTON ADP FRIDAY NIGHT!!!";
 
   return (
     <div className="marquee-fixed-bottom-mobile">

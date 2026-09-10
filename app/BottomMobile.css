@@ -22,7 +22,7 @@
 
 /* Individual text blocks */
 .marquee-content-mobile span {
-  padding-right: 50px; /* Space out the text sets */
+  padding-right: 25px; /* Space out the text sets */
   font-size: 1.1rem;
   font-weight: bold;
 }
@@ -35,9 +35,9 @@
 /* The infinite scrolling logic */
 @keyframes scroll-left-mobile {
   0% {
-    transform: translateX(20%);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-1000%); /* Moves exactly halfway (one full text copy length) before snapping back */
+    transform: translateX(-50%); /* Moves exactly halfway (one full text copy length) before snapping back */
   }
 }
