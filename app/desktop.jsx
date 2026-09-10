@@ -286,7 +286,7 @@ export function DesktopView() {
           Check Your Balance
         </a>
             <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)" }}>
-            (Click on your plan at the bottom for meals)
+            (Click on your plan at the bottom for meals: for example "Intermediate 540 Pts Fall")
           </label>
       </div>
       <BottomMarquee></BottomMarquee>
