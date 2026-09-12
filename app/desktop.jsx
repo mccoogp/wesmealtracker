@@ -189,25 +189,39 @@ export function DesktopView() {
         background: "var(--surface-2)",
         borderBottom: "0.5px solid var(--border)",
         padding: "20px 24px",
+        position: "relative",
+        overflow: "hidden",
       }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
+        {/* Left Icon (wesIcon) */}
+        <div style={{ 
+          position: 'absolute', 
           top: '35px', 
-          right: '-120px', 
-          pointerEvents: 'none',}}>
-            <img
-              src={typeof wesIcon === "string" ? wesIcon : wesIcon?.src || wesIcon}
-              style={{ width: 200, height: 200, objectFit: "contain" }}
-              />
+          left: 'calc(25% - 165px)', 
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none',
+        }}>
+          <img
+            src={typeof wesIcon === "string" ? wesIcon : wesIcon?.src || wesIcon}
+            style={{ width: 200, height: 200, objectFit: "contain" }}
+            alt="Wes Icon"
+          />
         </div> 
-        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', position: 'absolute', 
+
+        {/* Right Icon (plateIcon) */}
+        <div style={{ 
+          position: 'absolute', 
           top: '35px', 
-          right: '-1170px',
-          pointerEvents: 'none',}}>
-            <img
-              src={typeof plateIcon === "string" ? plateIcon : plateIcon?.src || plateIcon}
-              style={{ width: 200, height: 200, objectFit: "contain" }}
-              />
+          right: 'calc(25% - 165px)', 
+          transform: 'translateX(50%)',
+          pointerEvents: 'none',
+        }}>
+          <img
+            src={typeof plateIcon === "string" ? plateIcon : plateIcon?.src || plateIcon}
+            style={{ width: 200, height: 200, objectFit: "contain" }}
+            alt="Plate Icon"
+          />
         </div> 
+
         <div style={{ maxWidth: 660, margin: "0 auto" }}>
           <div style={{ fontSize: 18, fontWeight: 500, marginBottom: 16, color: "var(--text-primary)" }}>
             Meal plan tracker
@@ -231,6 +245,7 @@ export function DesktopView() {
              <img
               src={typeof fallIcon === "string" ? fallIcon : fallIcon?.src || fallIcon}
               style={{ width: 20, height: 20, objectFit: "contain" }}
+              alt="Fall Icon"
               />
             {' '} {' '}Off Campus Fall Break
           </label>
@@ -249,10 +264,10 @@ export function DesktopView() {
             </div>
           </div>
           <label style={{ display: "block", fontSize: 12, color: "var(--text-secondary)", marginBottom: 5 }}>
-
               <img
               src={typeof thankIcon === "string" ? thankIcon : thankIcon?.src || thankIcon}
               style={{ width: 24, height: 24, objectFit: "contain" }}
+              alt="Thanksgiving Icon"
               />
             {' '} {' '} Off Campus Thanksgiving Break
           </label>
