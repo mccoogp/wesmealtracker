@@ -323,7 +323,6 @@ export function DesktopView() {
             (Click on your plan at the bottom for meals: for example "Intermediate 540 Pts Fall")
           </label>
       </div>
-      <BottomMarquee></BottomMarquee>
     </div>
   );
 }

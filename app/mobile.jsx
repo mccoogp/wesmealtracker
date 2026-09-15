@@ -290,7 +290,6 @@ export function MobileView() {
           </label>
         
       </div>
-      <BottomMarquee></BottomMarquee>
     </div>
   );
 }
