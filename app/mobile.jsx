@@ -45,12 +45,13 @@ function daysBetween(a, b) {
 }
 
 function calcTrack(total, remaining, daysElapsed, daysLeft, totalDays) {
+  const parsedTotal = total === "" ? 0 : parseFloat(total) || 0;
   const rem = remaining === "" ? null : parseFloat(remaining);
   if (rem !== null && isNaN(rem)) return {};
-  const used = rem !== null ? Math.max(0, total - rem) : null;
+  const used = rem !== null ? Math.max(0, parsedTotal - rem) : null;
   const usedPerDay = daysElapsed > 0 && used !== null ? used / daysElapsed : null;
   const canSpendPerDay = daysLeft > 0 && rem !== null ? rem / daysLeft : null;
-  const onPacePerDay = totalDays > 0 ? total / (totalDays) : null;
+  const onPacePerDay = totalDays > 0 ? parsedTotal / (totalDays) : null;
 
   return { rem, used, usedPerDay, canSpendPerDay, onPacePerDay };
 }
@@ -109,7 +110,10 @@ function Track({ name, unit, total, icon, setTotal, remaining, setRemaining, day
             type="number"
             min={0}
             value={total}
-            onChange={e => setTotal(Number(e.target.value))}
+            onChange={e => {
+                const val = e.target.value;
+                setTotal(val === "" ? "" : Number(val));
+                }}
             style={{ width: "100%", boxSizing: "border-box" }}
           />
         </div>
