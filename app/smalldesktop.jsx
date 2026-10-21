@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from "react";
 import pointsIcon from "./points.png";
 import mealsIcon from "./meals.svg";
@@ -44,6 +43,14 @@ function daysBetween(a, b) {
   const d1 = new Date(a + "T12:00:00");
   const d2 = new Date(b + "T12:00:00");
   return Math.round((d2 - d1) / 86400000);
+}
+
+// Days of an off-campus break that overlap the window [from, to).
+// Uses the same convention as before: the break's end date is exclusive.
+function breakOverlap(from, to, breakStart, breakEnd) {
+  const lo = breakStart > from ? breakStart : from; // ISO dates compare correctly as strings
+  const hi = breakEnd < to ? breakEnd : to;
+  return Math.max(0, daysBetween(lo, hi));
 }
 
 function calcTrack(total, remaining, daysElapsed, daysLeft, totalDays) {
@@ -168,9 +175,24 @@ export function SmallView() {
   const [remainingSwipes, setRemainingSwipes] = useState("");
 
   const { totalDays, daysElapsed, daysLeft } = useMemo(() => {
-    const totalDays = Math.max(0, daysBetween(startDate, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0) - (thankBreak ? daysBetween(thankStartDate, thankEndDate) : 0));
-    const daysElapsed = Math.max(0, Math.min(totalDays, daysBetween(startDate, TODAY)));
-    const daysLeft = Math.max(0, daysBetween(TODAY, endDate) - (fallBreak ? daysBetween(fallStartDate, fallEndDate) : 0) - (thankBreak ? daysBetween(thankStartDate, thankEndDate) : 0));
+    // Total break days that fall within a given window
+    const breaksIn = (from, to) =>
+      (fallBreak ? breakOverlap(from, to, fallStartDate, fallEndDate) : 0) +
+      (thankBreak ? breakOverlap(from, to, thankStartDate, thankEndDate) : 0);
+
+    const totalDays = Math.max(0, daysBetween(startDate, endDate) - breaksIn(startDate, endDate));
+
+    // Only subtract breaks that have already happened (or are in progress)
+    const daysElapsed = Math.max(
+      0,
+      Math.min(totalDays, daysBetween(startDate, TODAY) - breaksIn(startDate, TODAY))
+    );
+
+    // Only subtract breaks that are still ahead (or the rest of one in progress).
+    // If the semester hasn't started yet, count from the start date.
+    const from = TODAY > startDate ? TODAY : startDate;
+    const daysLeft = Math.max(0, daysBetween(from, endDate) - breaksIn(from, endDate));
+
     return { totalDays, daysElapsed, daysLeft };
   }, [startDate, endDate, fallStartDate, fallEndDate, fallBreak, thankStartDate, thankEndDate, thankBreak]);
 
